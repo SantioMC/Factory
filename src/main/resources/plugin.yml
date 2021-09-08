@@ -1,0 +1,10 @@
+name: Factory
+version: ${project.version}
+main: me.santio.factory.FactoryLib
+api-version: 1.16
+authors: [ Santio71 ]
+description: A library used to easily create a modded-like experience using nothing but Spigot and a resource pack.
+commands:
+  factory:
+    description: The primary command for Factory
+    permission: factory.admin
