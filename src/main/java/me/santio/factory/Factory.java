@@ -30,7 +30,7 @@ public class Factory {
      * @return The list of custom blocks
      * @since v1.0
      */
-    public static FactoryBlock[] getBlockContexts() {
+    public static FactoryBlock[] getFactoryBlocks() {
         return FactoryLib.getBlocks().values().toArray(new FactoryBlock[0]);
     }
     
@@ -57,10 +57,10 @@ public class Factory {
     }
     
     /**
-     * Gets a custom block from Factory's API and returns the BlockContext.
+     * Gets a custom block from Factory's API and returns the FactoryBlock.
      *
-     * @param id The ID of the BlockContext
-     * @return The BlockContext or null if that ID does not exist
+     * @param id The ID of the FactoryBlock
+     * @return The FactoryBlock or null if that ID does not exist
      * @since v1.0
      */
     public static FactoryBlock getBlock(String id) {
