@@ -20,6 +20,7 @@
     </properties>
 
     <build>
+        <finalName>FactoryLib</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

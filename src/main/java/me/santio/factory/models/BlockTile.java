@@ -1,10 +1,15 @@
 package me.santio.factory.models;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.santio.factory.FactoryLib;
 import me.santio.factory.utils.NBTUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class BlockTile {
     
@@ -15,7 +20,7 @@ public class BlockTile {
     
     public BlockTile(Location location, FactoryBlock block) {
         this.location = location;
-        this.entityLocation = location.add(0, -1.19, 0);
+        this.entityLocation = location.clone().add(0.5, -1.19, 0.5);
         this.block = block;
         
         if (location.getWorld() == null) return;
@@ -30,15 +35,32 @@ public class BlockTile {
     
         NBTUtils.setBlockTile(entity, block);
         FactoryLib.getTiles().put(this.location, this);
+    
+        new BukkitRunnable() {
+            @Override public void run() {
+                if (!entity.isValid()) return;
+                location.getBlock().setType(getBlock().getBaseBlock().getMaterial());
+            }
+        }.runTaskLater(FactoryLib.getInstance(), 1);
     }
     
     public BlockTile(ArmorStand armorStand) {
         this.entityLocation = armorStand.getLocation();
-        this.location = entityLocation.add(0, 1.19, 0);
+        this.location = entityLocation.clone().add(0.5, 1.19, 0.5);
         this.entity = armorStand;
         this.block = FactoryLib.getBlocks().get(NBTUtils.getBlockTile(armorStand));
         
         FactoryLib.getTiles().put(this.location, this);
+    }
+    
+    /**
+     * Deletes the block tile (removes block & entity)
+     * This should run when you want to remove the block
+     */
+    public void delete() {
+        this.location.getBlock().setType(Material.AIR);
+        this.entity.remove();
+        FactoryLib.getTiles().remove(this.location);
     }
     
     //<editor-fold desc="Persistent Data" defaultstate="collapsed">

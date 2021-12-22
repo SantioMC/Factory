@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.santio.factory.Factory;
 import me.santio.factory.FactoryLib;
 import me.santio.factory.mods.FactoryMod;
+import me.santio.factory.utils.NBTUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -40,7 +41,9 @@ public abstract class ItemContext {
         meta.setDisplayName(ChatColor.WHITE + getName());
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         
+        NBTUtils.setCustomItem(meta, getID());
         item.setItemMeta(meta);
+        
         return item;
     }
     

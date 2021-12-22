@@ -1,5 +1,6 @@
-package me.santio.factory;
+package me.santio.factory.commands;
 
+import me.santio.factory.FactoryLib;
 import me.santio.factory.models.ItemContext;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

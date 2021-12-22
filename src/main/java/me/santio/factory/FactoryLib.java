@@ -1,6 +1,9 @@
 package me.santio.factory;
 
 import lombok.Getter;
+import me.santio.factory.commands.FactoryCommand;
+import me.santio.factory.commands.ModCommand;
+import me.santio.factory.listeners.CustomBlockListener;
 import me.santio.factory.listeners.ResourcepackListener;
 import me.santio.factory.models.BlockTile;
 import me.santio.factory.models.FactoryBlock;
@@ -22,7 +25,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @SuppressWarnings({"FieldCanBeLocal", "ResultOfMethodCallIgnored"})
 public final class FactoryLib extends JavaPlugin {
@@ -69,9 +74,12 @@ public final class FactoryLib extends JavaPlugin {
         FactoryCommand command = new FactoryCommand();
         
         getServer().getPluginManager().registerEvents(new ResourcepackListener(), this);
+        getServer().getPluginManager().registerEvents(new CustomBlockListener(), this);
         
         getServer().getPluginCommand("factory").setExecutor(command);
         getServer().getPluginCommand("factory").setTabCompleter(command);
+    
+        getServer().getPluginCommand("mods").setExecutor(new ModCommand());
         
         // Enable Mods
         new BukkitRunnable() {
@@ -108,21 +116,26 @@ public final class FactoryLib extends JavaPlugin {
             for (File mod : directories) {
                 if (!mod.isDirectory()) continue;
                 String modID = mod.getName();
-                Collection<File> modModels = FileUtils.listFiles(mod.toPath().resolve("models/").toFile(), new String[]{"json"}, false);
+                Collection<File> modModels = FileUtils.listFiles(mod.toPath().resolve("models/").toFile(), new String[]{"json"}, true);
                 for (File move : modModels) FileUtils.moveFile(move, models.toPath().resolve("custom/"+move.getName()).toFile());
-                Collection<File> modTextures = FileUtils.listFiles(mod.toPath().resolve("textures/").toFile(), new String[]{"png", "jpeg", "jpg"}, false);
+                Collection<File> modTextures = FileUtils.listFiles(mod.toPath().resolve("textures/").toFile(), new String[]{"png"}, true);
                 for (File move : modTextures) FileUtils.moveFile(move, textures.toPath().resolve(modID+"/"+move.getName()).toFile());
             }
             
             // Prepare model data
             StringBuilder modelData = new StringBuilder();
-            for (FactoryModel model : getModels().values()) {
+            for (FactoryModel model : getModels().values()
+                    .stream()
+                    .sorted(Comparator.comparingInt(FactoryModel::getId))
+                    .collect(Collectors.toList())) {
+                
                 if (model.getId() != 1) modelData.append(",\n\t\t");
                 modelData.append("{\"predicate\": {\"custom_model_data\":")
                         .append(model.getId())
                         .append("}, \"model\": \"item/custom/")
                         .append(model.getModel())
                         .append("\"}");
+                
             }
     
             // Create custom model data file

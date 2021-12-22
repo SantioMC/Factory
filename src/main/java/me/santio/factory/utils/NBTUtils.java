@@ -4,6 +4,7 @@ import me.santio.factory.FactoryLib;
 import me.santio.factory.models.FactoryBlock;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 /**
@@ -21,6 +22,14 @@ public class NBTUtils {
     public static String getBlockTile(ArmorStand entity) {
         return entity.getPersistentDataContainer().get(generateKey("factoryTile"), PersistentDataType.STRING);
     }
+    public static void setCustomItem(ItemMeta meta, String id) {
+        meta.getPersistentDataContainer().set(generateKey("factoryItem"), PersistentDataType.STRING, id);
+    }
+    public static String getCustomItem(ItemMeta meta) {
+        return meta.getPersistentDataContainer().get(generateKey("factoryItem"), PersistentDataType.STRING);
+    }
+    
+    //<editor-fold desc="NBT" defaultstate="collapsed">
     public static void write(ArmorStand entity, String key, String value) {
         entity.getPersistentDataContainer().set(generateKey("factory_"+key), PersistentDataType.STRING, value);
     }
@@ -57,5 +66,6 @@ public class NBTUtils {
     public static Long readLong(ArmorStand entity, String key) {
         return entity.getPersistentDataContainer().get(generateKey("factory_" + key), PersistentDataType.LONG);
     }
+    //</editor-fold>
     
 }

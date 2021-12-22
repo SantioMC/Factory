@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.santio.factory.exceptions.FactoryLoadedException;
 import me.santio.factory.models.FactoryBlock;
+import me.santio.factory.models.FactoryItem;
 import me.santio.factory.models.FactoryModel;
 import me.santio.factory.mods.FactoryMod;
 import me.santio.factory.web.PackWebpage;
@@ -54,6 +55,17 @@ public class Factory {
      */
     public static FactoryBlock createBlock(FactoryMod mod, String name) {
         return new FactoryBlock(mod, name);
+    }
+    
+    /**
+     * Begins creation of a FactoryItem
+     *
+     * @param mod The mod registering the item.
+     * @param name The name of the item
+     * @since v1.0
+     */
+    public static FactoryItem createItem(FactoryMod mod, String name) {
+        return new FactoryItem(mod, name);
     }
     
     /**
@@ -185,7 +197,7 @@ public class Factory {
             file.createNewFile();
             FileUtils.writeStringToFile(file, text, StandardCharsets.UTF_8);
     
-            FactoryModel factoryModel = new FactoryModel(mod, id.split("\\.")[0], FactoryLib.getModels().size()+1);
+            new FactoryModel(mod, id.split("\\.")[0], FactoryLib.getModels().size()+1);
         } catch (IOException e) {
             e.printStackTrace();
         }
