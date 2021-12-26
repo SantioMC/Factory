@@ -4,6 +4,7 @@ import me.santio.factory.Factory;
 import me.santio.factory.events.FactoryBlockInteractEvent;
 import me.santio.factory.events.FactoryBlockPlaceEvent;
 import me.santio.factory.models.FactoryBlock;
+import me.santio.factory.models.FactoryDimension;
 import me.santio.factory.mods.FactoryMod;
 import org.bukkit.event.EventHandler;
 
@@ -17,6 +18,15 @@ public class FactoryTest extends FactoryMod {
     
         Factory.createTexture(this, "copper", "textures/copper.png");
         Factory.createModel(this, "copper_golem", "models/copper_golem.json");
+        
+        // Register dimension
+        FactoryDimension dimension = Factory.createDimension(this, "test");
+        if (dimension == null) return;
+        dimension
+            .setBedrock(true)
+            .setCaves(true)
+            .setDecorations(true)
+            .setSurface(true);
     }
     
     @Override

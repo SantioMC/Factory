@@ -5,10 +5,7 @@ import me.santio.factory.commands.FactoryCommand;
 import me.santio.factory.commands.ModCommand;
 import me.santio.factory.listeners.CustomBlockListener;
 import me.santio.factory.listeners.ResourcepackListener;
-import me.santio.factory.models.BlockTile;
-import me.santio.factory.models.FactoryBlock;
-import me.santio.factory.models.FactoryItem;
-import me.santio.factory.models.FactoryModel;
+import me.santio.factory.models.*;
 import me.santio.factory.mods.FactoryMod;
 import me.santio.factory.mods.ModLoader;
 import me.santio.factory.web.PackWebpage;
@@ -40,6 +37,7 @@ public final class FactoryLib extends JavaPlugin {
     @Getter private static final HashMap<String, FactoryBlock> blocks = new HashMap<>();
     @Getter private static final HashMap<String, FactoryItem> items = new HashMap<>();
     @Getter private static final HashMap<String, FactoryModel> models = new HashMap<>();
+    @Getter private static final HashMap<String, FactoryDimension> dimensions = new HashMap<>();
     @Getter private static final HashMap<Location, BlockTile> tiles = new HashMap<>();
     @Getter private static final ArrayList<String> textures = new ArrayList<>();
     

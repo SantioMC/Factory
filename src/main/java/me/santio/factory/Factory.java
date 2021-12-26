@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.santio.factory.exceptions.FactoryLoadedException;
 import me.santio.factory.models.FactoryBlock;
+import me.santio.factory.models.FactoryDimension;
 import me.santio.factory.models.FactoryItem;
 import me.santio.factory.models.FactoryModel;
 import me.santio.factory.mods.FactoryMod;
@@ -99,6 +100,27 @@ public class Factory {
      */
     public static boolean isDoneLoading() {
         return FactoryLib.isDoneLoading();
+    }
+    
+    /**
+     * Creates a new dimension that Factory will generate once the vanilla three worlds are loaded.
+     * The world name will be "{level name}-{dimension name}"
+     * @apiNote This method is only available in the onPreEnable event
+     *
+     * @param mod The mod creating the dimension
+     * @param name The Name of the dimension
+     * @return The new dimension which will allow you to modify its attributes.
+     * @since v1.0
+     */
+    public static FactoryDimension createDimension(FactoryMod mod, String name) {
+        if (isDoneLoading()) {
+            new FactoryLoadedException("Factory is already loaded, you can no longer create dimensions, try putting it in FactoryMod#onPreEnable").printStackTrace();
+            return null;
+        }
+        
+        FactoryDimension dimension = new FactoryDimension(mod, name);
+        FactoryLib.getDimensions().put(name, dimension);
+        return dimension;
     }
     
     /**
