@@ -3,10 +3,16 @@ package me.santio.factory.test;
 import me.santio.factory.Factory;
 import me.santio.factory.events.FactoryBlockInteractEvent;
 import me.santio.factory.events.FactoryBlockPlaceEvent;
+import me.santio.factory.events.FactoryItemUseEvent;
 import me.santio.factory.models.FactoryBlock;
 import me.santio.factory.models.FactoryDimension;
+import me.santio.factory.models.FactoryItem;
 import me.santio.factory.mods.FactoryMod;
+import me.santio.factory.oredict.Dictionary;
+import me.santio.factory.oredict.OreDictionary;
 import org.bukkit.event.EventHandler;
+
+import java.util.List;
 
 public class FactoryTest extends FactoryMod {
     
@@ -38,7 +44,13 @@ public class FactoryTest extends FactoryMod {
      
         // Create Item
         Factory.createItem(this, "Copper Golem")
+                .registerOreDict("copper golem")
                 .setModel("copper_golem");
+        
+        Dictionary dict = new Dictionary("copper golem");
+        List<FactoryItem> copperGolems = OreDictionary.findItem(dict);
+        
+        boolean matches = OreDictionary.matches(dict, Factory.getItem("copper_golem"));
     }
     
     @EventHandler
@@ -53,6 +65,13 @@ public class FactoryTest extends FactoryMod {
     public void onBlockInteract(FactoryBlockInteractEvent event) {
         if (!event.getTile().getBlock().getName().equals("Debug Block")) return;
         event.getPlayer().sendMessage("§7Power: §3" + event.getTile().readInt("energy"));
+    }
+    
+    @EventHandler
+    public void onItemUse(FactoryItemUseEvent event) {
+        if (!event.getItem().getName().equals("Copper Golem")) return;
+        Dictionary dict = new Dictionary("copper golem");
+        event.getPlayer().sendMessage("§3Dict Results:§7 " + OreDictionary.findItem(dict).size());
     }
     
 }

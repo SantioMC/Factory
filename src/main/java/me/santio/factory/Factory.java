@@ -81,6 +81,17 @@ public class Factory {
     }
     
     /**
+     * Gets a custom item from Factory's API and returns the FactoryItem.
+     *
+     * @param id The ID of the FactoryItem
+     * @return The FactoryItem or null if that ID does not exist
+     * @since v1.0
+     */
+    public static FactoryItem getItem(String id) {
+        return FactoryLib.getItems().get(id);
+    }
+    
+    /**
      * Sends the generated resource pack to the player.
      * @apiNote This method is automatically ran on join.
      *
@@ -224,5 +235,4 @@ public class Factory {
             e.printStackTrace();
         }
     }
-    
 }

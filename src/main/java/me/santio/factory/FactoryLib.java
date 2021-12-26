@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.santio.factory.commands.FactoryCommand;
 import me.santio.factory.commands.ModCommand;
 import me.santio.factory.listeners.CustomBlockListener;
+import me.santio.factory.listeners.CustomItemListener;
 import me.santio.factory.listeners.ResourcepackListener;
 import me.santio.factory.models.*;
 import me.santio.factory.mods.FactoryMod;
@@ -73,6 +74,7 @@ public final class FactoryLib extends JavaPlugin {
         
         getServer().getPluginManager().registerEvents(new ResourcepackListener(), this);
         getServer().getPluginManager().registerEvents(new CustomBlockListener(), this);
+        getServer().getPluginManager().registerEvents(new CustomItemListener(), this);
         
         getServer().getPluginCommand("factory").setExecutor(command);
         getServer().getPluginCommand("factory").setTabCompleter(command);

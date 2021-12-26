@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.santio.factory.Factory;
 import me.santio.factory.FactoryLib;
 import me.santio.factory.mods.FactoryMod;
+import me.santio.factory.oredict.OreDictionary;
 import me.santio.factory.utils.NBTUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -47,6 +48,12 @@ public abstract class ItemContext {
         return item;
     }
     
+    /**
+     * Sets the model of the item/block you're making.
+     *
+     * @param model The model to set, should have been constructed from {@link Factory#createModel}
+     * @return The item context
+     */
     public ItemContext setModel(String model) {
         String id = model.contains("/") ? model : getMod().getDescription().getId()+"/"+model;
         FactoryModel factoryModel = FactoryLib.getModels().get(id);
